@@ -1,0 +1,17 @@
+--Top 20 countries with the highest amount of rentals--
+SELECT  cnt.country,
+		COUNT(r.*) rental_count
+FROM rental r
+JOIN payment p
+ON r.rental_id = p.rental_id
+JOIN customer c
+ON p.customer_id = c.customer_id
+JOIN address ad
+ON c.address_id = ad.address_id
+JOIN city cty
+ON ad.city_id = cty.city_id
+JOIN country cnt
+ON cty.country_id = cnt.country_id
+GROUP BY 1
+ORDER BY 2 desc
+LIMIT 20;

@@ -1,0 +1,15 @@
+--running total of daily payment for each store in 2007--
+SELECT store_id, 
+	payment_date, 
+	payment_amt, 
+	SUM(payment_amt) OVER (PARTITION BY store_id ORDER BY payment_date) AS payment_running_total
+FROM		
+		(SELECT p.payment_date AS payment_date, 
+				p.amount AS payment_amt, s.store_id
+		FROM store s
+		JOIN staff st
+		ON s.store_id = st.store_id
+		JOIN payment p
+		ON st.staff_id = p.staff_id
+		WHERE date_part('year',p.payment_date) = '2007'
+		ORDER BY 3)tb1;
